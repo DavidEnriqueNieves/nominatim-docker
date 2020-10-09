@@ -6,8 +6,14 @@ NOMINATIM_DATA_LABEL=${NOMINATIM_DATA_LABEL:="data"}
 NOMINATIM_PBF_URL=${NOMINATIM_PBF_URL:="http://download.geofabrik.de/asia/maldives-latest.osm.pbf"}
 
 
-# Retrieve the PBF file
-curl -L $NOMINATIM_PBF_URL --create-dirs -o $NOMINATIM_DATA_PATH/$NOMINATIM_DATA_LABEL.osm.pbf
+if [$NOMINATIM_DATA_OVERRIDE == "true"]
+then
+  echo -e "DATA OVERRIDE; DELETING PREVIOUS MAP DATA"
+  curl -L $NOMINATIM_PBF_URL --create-dirs -o $NOMINATIM_DATA_PATH/$NOMINATIM_DATA_LABEL.osm.pbf
+fi
+
+
+
 # Allow user accounts read access to the data
 chmod 755 $NOMINATIM_DATA_PATH
 
